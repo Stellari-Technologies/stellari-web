@@ -1,0 +1,22 @@
+version: '3.8'
+
+services:
+  # START HERE: Local frontend service.
+  # This compose file is intentionally web-only.
+  # Use your infra repo when you want api + web orchestration together.
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    container_name: stellari-web
+    restart: unless-stopped
+    ports:
+      - '5173:5173'
+    environment:
+      # Update this when pointing at a different API host.
+      VITE_API_BASE_URL: http://localhost:3000
+    volumes:
+      # Source mount for hot reload; anonymous node_modules keeps container deps isolated.
+      - .:/app
+      - /app/node_modules
+    command: npm run dev -- --host 0.0.0.0 --port 5173

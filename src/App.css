@@ -1,0 +1,133 @@
+/* Page-level layout primitives for the starter screen. */
+.app-shell {
+  width: min(1100px, 100% - 2rem);
+  margin-inline: auto;
+  padding: clamp(2rem, 5vw, 4.5rem) 0 clamp(3rem, 8vw, 6rem);
+  display: grid;
+  gap: clamp(2rem, 6vw, 4rem);
+}
+
+/* Hero section (first area most teams customize). */
+.hero {
+  position: relative;
+  padding: clamp(1.5rem, 5vw, 3rem);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background: linear-gradient(
+    145deg,
+    color-mix(in srgb, var(--color-ink) 7%, white),
+    color-mix(in srgb, var(--color-brand) 7%, white)
+  );
+  box-shadow: var(--shadow-soft);
+  text-align: left;
+  overflow: hidden;
+}
+
+.hero::after {
+  content: '';
+  position: absolute;
+  width: 260px;
+  height: 260px;
+  right: -60px;
+  top: -120px;
+  border-radius: 999px;
+  background: radial-gradient(
+    circle,
+    color-mix(in srgb, var(--color-brand) 28%, transparent),
+    transparent 70%
+  );
+  pointer-events: none;
+}
+
+.eyebrow {
+  margin: 0;
+  font-family: var(--font-heading);
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-brand);
+}
+
+.hero h1 {
+  margin: 0.75rem 0 0;
+  max-width: 20ch;
+  font-size: clamp(1.9rem, 4vw, 3.1rem);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+}
+
+.lead {
+  margin: 1rem 0 0;
+  max-width: 58ch;
+  color: var(--color-muted);
+  font-size: clamp(1rem, 2.2vw, 1.15rem);
+}
+
+.cta-row {
+  margin-top: 1.5rem;
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  border-radius: var(--radius-md);
+  border: 1px solid transparent;
+  font-weight: 600;
+  font-size: 0.95rem;
+  padding: 0.72rem 1rem;
+  transition: transform 140ms ease, box-shadow 140ms ease;
+}
+
+.button:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-soft);
+}
+
+.button.primary {
+  background: var(--color-ink);
+  color: white;
+}
+
+.button.ghost {
+  border-color: var(--color-border);
+  color: var(--color-ink);
+  background: color-mix(in srgb, var(--color-paper) 90%, white);
+}
+
+/* Reusable card grid pattern for dashboard-like sections. */
+.feature-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.feature-card {
+  background: color-mix(in srgb, var(--color-paper) 90%, white);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 1.15rem;
+  text-align: left;
+}
+
+.feature-card h2 {
+  margin: 0;
+  font-size: 1.15rem;
+}
+
+.feature-card p {
+  margin: 0.55rem 0 0;
+  color: var(--color-muted);
+}
+
+/* Mobile collapse behavior for cards. */
+@media (max-width: 900px) {
+  .feature-grid {
+    grid-template-columns: 1fr;
+  }
+}

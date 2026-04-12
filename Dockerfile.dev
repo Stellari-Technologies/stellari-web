@@ -1,0 +1,14 @@
+FROM node:22-alpine
+
+WORKDIR /app
+
+# Install dependencies first for better layer caching.
+COPY package*.json ./
+RUN npm ci
+
+COPY . .
+
+EXPOSE 5173
+
+# Development server for local container workflow (hot reload + host binding).
+CMD ["npm", "run", "dev", "--", "--host", "0.0.0.0", "--port", "5173"]
