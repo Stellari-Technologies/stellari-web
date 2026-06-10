@@ -1,32 +1,11 @@
 import { useNavigate } from 'react-router-dom'
-import { Bell, User, Users, BarChart2 } from 'lucide-react'
+import { Trophy, Users, BarChart2, Bell } from 'lucide-react'
 import Navbar from '../components/Navbar'
-import Button from '../components/Button'
 import Footer from '../components/Footer'
 import './LandingPage.css'
-
-const features = [
-  {
-    icon: <Bell size={28} />,
-    title: 'Smart Notifications',
-    desc: 'Stay on top of every participant milestone and activity update without missing a beat.',
-  },
-  {
-    icon: <User size={28} />,
-    title: 'Easy Customer Management',
-    desc: 'Manage all your participants, staff, and organizations from one clean dashboard.',
-  },
-  {
-    icon: <Users size={28} />,
-    title: 'Easy Employee Access',
-    desc: 'Give your team the right access they need — invite staff and manage roles effortlessly.',
-  },
-  {
-    icon: <BarChart2 size={28} />,
-    title: 'Built In Data Management',
-    desc: 'Track every star earned, reward redeemed, and activity completed — all in one place.',
-  },
-]
+import placeholderImg from '../assets/placeholder.svg'
+import heroImg from '../assets/hero-illustration.svg'
+import codeNinjasImg from '../assets/CodeNinjasLogo.png'
 
 export default function LandingPage() {
   const navigate = useNavigate()
@@ -36,62 +15,153 @@ export default function LandingPage() {
       <Navbar />
 
       {/* HERO */}
-      <div className="landing-hero-wrap">
-        <div className="landing-hero">
+      <section className="landing-hero">
+        {/* NEW WRAPPER CONTAINER */}
+        <div className="landing-hero__content">
           <h1 className="landing-hero__headline">
-            Manage your business{' '}
-            <span className="landing-hero__accent">smarter,</span>
-            <br />not harder.
+            Where businesses<br />
+            <span className="landing-hero__accent">reward</span> progress
           </h1>
           <p className="landing-hero__sub">
-            Stellari helps you reward progress, track activities, and keep your
-            customers coming back — all from one simple platform.
+            Stellari helps you run a rewards program your participants actually love —
+            track activities, recognize achievements, and keep them coming back.
           </p>
-          <Button variant="brand" size="lg" onClick={() => navigate('/signup')}>
-            Get Started
-          </Button>
+          <div className="landing-hero__actions">
+            <button className="ui-btn ui-btn-brand ui-btn-lg" onClick={() => navigate('/signup')}>
+              Get Started Free
+            </button>
+            <button className="ui-btn ui-btn-ghost ui-btn-lg" onClick={() => navigate('/login')}>
+              Log in
+            </button>
+          </div>
         </div>
-      </div>
 
-      {/* FEATURES */}
-      <div className="landing-features-wrap">
-        <div className="landing-features">
-          <div className="landing-features__header">
-            <h2 className="landing-features__title">
-              One platform for all the customer management you could possibly need.
-            </h2>
-            <p className="landing-features__sub">
-              Everything your team needs to manage participants, assign stars, and redeem rewards — without the mess.
-            </p>
+        {/* HERO IMAGE (Now free to expand up to 1100px) */}
+        <div className="landing-hero__img">
+          <img src={heroImg} alt="Stellari platform preview" className="landing-hero__placeholder" />
+        </div>
+      </section>
+
+      {/* TRUSTED BY */}
+      <section className="landing-trusted">
+        <p className="landing-trusted__label">Trusted by businesses like</p>
+        <div className="landing-trusted__card">
+          <div className="landing-trusted__photo">
+            <img src={codeNinjasImg} alt="Code Ninjas North Edmonton" className="landing-trusted__logo" />
           </div>
-          <div className="landing-features__grid">
-            {features.map((f) => (
-              <div className="landing-feature-card" key={f.title}>
-                <div className="landing-feature-card__icon">{f.icon}</div>
-                <h3 className="landing-feature-card__title">{f.title}</h3>
-                <p className="landing-feature-card__desc">{f.desc}</p>
-              </div>
-            ))}
+          <div className="landing-trusted__body">
+            <p className="landing-trusted__quote">
+              "Stellari helped us manage all our students and their progress effortlessly.
+              Our staff can track every ninja's achievements in one place."
+            </p>
+            <p className="landing-trusted__name">Code Ninjas North Edmonton</p>
+            <p className="landing-trusted__location">Edmonton, AB</p>
           </div>
         </div>
-      </div>
+      </section>
+
+      {/* FEATURE 1 */}
+      <section className="landing-feature">
+        <div className="landing-feature__text">
+          <div className="landing-feature__icon landing-feature__icon--amber">
+            <Trophy size={22} />
+          </div>
+          <h2 className="landing-feature__headline">
+            Recognize every<br />achievement
+          </h2>
+          <p className="landing-feature__desc">
+            Reward participants when they complete activities or hit milestones.
+            Every achievement recognized keeps them engaged and coming back.
+          </p>
+        </div>
+        <div className="landing-feature__visual">
+          <img src={placeholderImg} alt="Rewards" className="landing-feature__img" />
+          <p className="landing-feature__img-label">Rewards illustration goes here</p>
+        </div>
+      </section>
+
+      <div className="landing-divider" />
+
+      {/* FEATURE 2 */}
+      <section className="landing-feature landing-feature--reverse">
+        <div className="landing-feature__text">
+          <div className="landing-feature__icon landing-feature__icon--blue">
+            <Users size={22} />
+          </div>
+          <h2 className="landing-feature__headline">
+            Manage your whole<br />team in one place
+          </h2>
+          <p className="landing-feature__desc">
+            Invite staff, assign roles, and manage participants across your
+            organization — no spreadsheets needed.
+          </p>
+        </div>
+        <div className="landing-feature__visual">
+          <img src={placeholderImg} alt="Team management" className="landing-feature__img" />
+          <p className="landing-feature__img-label">Team management illustration goes here</p>
+        </div>
+      </section>
+
+      <div className="landing-divider" />
+
+      {/* FEATURE 3 */}
+      <section className="landing-feature">
+        <div className="landing-feature__text">
+          <div className="landing-feature__icon landing-feature__icon--green">
+            <BarChart2 size={22} />
+          </div>
+          <h2 className="landing-feature__headline">
+            Track every activity<br />and redemption
+          </h2>
+          <p className="landing-feature__desc">
+            See exactly which activities were completed, what rewards were earned,
+            and what was redeemed — all in one dashboard.
+          </p>
+        </div>
+        <div className="landing-feature__visual">
+          <img src={placeholderImg} alt="Analytics" className="landing-feature__img" />
+          <p className="landing-feature__img-label">Analytics illustration goes here</p>
+        </div>
+      </section>
+
+      <div className="landing-divider" />
+
+      {/* FEATURE 4 */}
+      <section className="landing-feature landing-feature--reverse">
+        <div className="landing-feature__text">
+          <div className="landing-feature__icon landing-feature__icon--purple">
+            <Bell size={22} />
+          </div>
+          <h2 className="landing-feature__headline">
+            Stay on top of<br />every update
+          </h2>
+          <p className="landing-feature__desc">
+            Get notified when participants hit milestones or have rewards ready
+            to redeem — so nothing slips through.
+          </p>
+        </div>
+        <div className="landing-feature__visual">
+          <img src={placeholderImg} alt="Notifications" className="landing-feature__img" />
+          <p className="landing-feature__img-label">Notifications illustration goes here</p>
+        </div>
+      </section>
 
       {/* SIGN UP PROMPT */}
-      <div className="landing-signup-wrap">
-        <div className="landing-signup">
-          <p className="landing-signup__eyebrow">
-            A customer management tool created with business owners in mind
-          </p>
-          <h2 className="landing-signup__headline">
-            Built to grow with you,<br />and your business.
-          </h2>
-          <div className="landing-signup__actions">
-            <Button variant="brand" size="lg" onClick={() => navigate('/signup')}>
-              Start Today
-            </Button>
-          </div>
-        </div>
-      </div>
+      <section className="landing-signup">
+        <p className="landing-signup__eyebrow">
+          A rewards platform built with business owners in mind
+        </p>
+        <h2 className="landing-signup__headline">
+          Ready to start rewarding<br />your customers?
+        </h2>
+        <p className="landing-signup__sub">
+          Join businesses already using Stellari to keep their participants
+          engaged and coming back.
+        </p>
+        <button className="ui-btn ui-btn-brand ui-btn-lg" onClick={() => navigate('/signup')}>
+          Start Today
+        </button>
+      </section>
 
       <Footer />
     </div>
