@@ -51,7 +51,7 @@ export default function LandingPage() {
           </div>
           <div className="landing-trusted__body">
             <p className="landing-trusted__quote">
-              "Stellari helped us manage all our students and their progress effortlessly.
+              "Stellari helped us manage all our ninja's and their progress effortlessly.
               Our staff can track every ninja's achievements in one place."
             </p>
             <p className="landing-trusted__name">Code Ninjas North Edmonton</p>
