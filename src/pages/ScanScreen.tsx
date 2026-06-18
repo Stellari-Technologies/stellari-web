@@ -1,23 +1,28 @@
 import { useState } from 'react';
 import { useNfcScan } from '../hooks/useNfcScan';
 import { CurrencyDisplay } from '../components/CurrencyDisplay';
+import {getNextMilestone} from '../utils/milestones';
+import '../styles/scan.css';
 
 interface Participant {
   id: string;
   name: string;
   balance: number;
   weeklyEarned: number;
+  nextMilestone: number;
 }
 
 // TODO: replace with the real lookup once the backend endpoint exists.
 // Should resolve a scanned card UID to the participant's current balance.
 async function resolveParticipantByCardId(cardId: string): Promise<Participant> {
   await new Promise((resolve) => setTimeout(resolve, 500));
+  const balance = 1280;
   return {
     id: cardId,
-    name: 'Sample Ninja',
-    balance: 1280,
+    name: 'Sample Participant',
+    balance,
     weeklyEarned: 250,
+    nextMilestone: getNextMilestone(balance),
   };
 }
 
@@ -59,7 +64,7 @@ export function ScanScreen() {
         className="scan-simulate-btn"
         onClick={() => simulateScan('TEST-CARD-001')}
       >
-        Simulate scan (dev only)
+        Test Scan
       </button>
     </div>
   );
