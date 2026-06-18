@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNfcScan } from '../hooks/useNfcScan';
 import { CurrencyDisplay } from '../components/CurrencyDisplay';
+import '../styles/scan.css'
 
 interface Participant {
   id: string;
