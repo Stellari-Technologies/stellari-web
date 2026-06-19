@@ -1,7 +1,8 @@
-
+import { useState } from 'react'
 import { useSearchParams, useNavigate } from 'react-router-dom'
 import { Gift, UserPlus, Users, Zap, LayoutDashboard, ChevronRight } from 'lucide-react'
 import ActivitiesTab from '../components/ActivitiesTab'
+import CreateParticipantTab from '../components/CreateParticipantTab'
 import '../styles/dashboard.css'
 import '../styles/ui.css'
 
@@ -98,6 +99,8 @@ export default function DashboardPage() {
 
           {activeTab === 'activities'
             ? <ActivitiesTab />
+            : activeTab === 'create'
+            ? <CreateParticipantTab />
             : (
               <div className="dash-placeholder">
                 <div className="dash-placeholder-icon">{meta.icon}</div>
