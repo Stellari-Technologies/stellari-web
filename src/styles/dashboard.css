@@ -715,3 +715,212 @@
 input[type=number]::-webkit-inner-spin-button,
 input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; }
 input[type=number] { -moz-appearance: textfield; appearance: textfield; }
+
+/* ── Create Participant Tab ───────────────────────────────────────────────── */
+.cp-wrap {
+  max-width: 680px;
+}
+
+.cp-form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.cp-section-title {
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--color-muted, #5a6e8a);
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--color-border, #e2e8f0);
+  margin-top: 6px;
+}
+
+.cp-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.cp-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.cp-error {
+  font-size: 0.76rem;
+  color: #d93f3f;
+}
+
+.cp-optional {
+  font-size: 0.75rem;
+  font-weight: 400;
+  color: var(--color-muted, #5a6e8a);
+  text-transform: none;
+  letter-spacing: 0;
+}
+
+/* ── Select dropdown ── */
+.cp-select-wrap {
+  position: relative;
+}
+
+.cp-select {
+  width: 100%;
+  appearance: none;
+  cursor: pointer;
+  padding-right: 36px;
+}
+
+.cp-select-arrow {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  color: var(--color-muted, #5a6e8a);
+}
+
+/* ── Checkbox row ── */
+.cp-checkbox-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  padding: 14px 16px;
+  background: #f8fafc;
+  border: 1.5px solid var(--color-border, #e2e8f0);
+  border-radius: 10px;
+  transition: border-color 0.15s, background 0.15s;
+  user-select: none;
+}
+
+.cp-checkbox-row:hover {
+  border-color: var(--color-brand, #1a3561);
+  background: #f0f4f9;
+}
+
+.cp-checkbox {
+  width: 17px;
+  height: 17px;
+  accent-color: var(--color-brand, #1a3561);
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.cp-checkbox-label {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--color-brand, #1a3561);
+}
+
+/* ── Parent section (revealed when checkbox checked) ── */
+.cp-parent-section {
+  background: #f8fafc;
+  border: 1px solid var(--color-border, #e2e8f0);
+  border-radius: 12px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  animation: cp-slide-in 0.18s ease;
+}
+
+@keyframes cp-slide-in {
+  from { opacity: 0; transform: translateY(-6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Form footer ── */
+.cp-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  padding-top: 8px;
+  border-top: 1px solid var(--color-border, #e2e8f0);
+  margin-top: 4px;
+}
+
+/* ── Success state ── */
+.cp-success {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 40px 20px;
+  max-width: 480px;
+  margin: 0 auto;
+}
+
+.cp-success__icon {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: rgba(61, 184, 122, 0.1);
+  color: #3db87a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 16px;
+}
+
+.cp-success__title {
+  font-family: var(--font-heading, 'Inter', sans-serif);
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--color-brand, #1a3561);
+  margin: 0 0 8px;
+}
+
+.cp-success__sub {
+  font-size: 0.9rem;
+  color: var(--color-muted, #5a6e8a);
+  margin: 0 0 24px;
+}
+
+.cp-success__card {
+  width: 100%;
+  background: #f8fafc;
+  border: 1px solid var(--color-border, #e2e8f0);
+  border-radius: 12px;
+  padding: 16px 20px;
+  margin-bottom: 24px;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.cp-success__row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.85rem;
+}
+
+.cp-success__label {
+  color: var(--color-muted, #5a6e8a);
+  font-weight: 500;
+}
+
+.cp-success__value {
+  color: var(--color-brand, #1a3561);
+  font-weight: 600;
+}
+
+.cp-success__divider {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--color-muted, #5a6e8a);
+  padding-top: 6px;
+  border-top: 1px solid var(--color-border, #e2e8f0);
+}
+
+@media (max-width: 600px) {
+  .cp-row { grid-template-columns: 1fr; }
+}
