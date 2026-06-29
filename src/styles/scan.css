@@ -1,13 +1,57 @@
+/* ── Base ── */
 .scan-screen {
   min-height: 100vh;
+  width: 100%;
+  background: radial-gradient(circle at 50% 0%, #1e1b4b 0%, #0b1120 60%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  font-family: system-ui, sans-serif;
+}
+
+/* ── Idle ── */
+.scan-idle {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
   gap: 24px;
-  background: radial-gradient(circle at 50% 0%, #1e1b4b 0%, #0b1120 60%);
-  color: #e2e8f0;
-  padding: 24px;
+}
+
+.nfc-ring-wrap {
+  position: relative;
+  width: 180px;
+  height: 180px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ring {
+  position: absolute;
+  border-radius: 50%;
+  border: 2px solid rgba(129, 140, 248, 0.5);
+  animation: nfcExpand 2.4s ease-out infinite;
+}
+.ring:nth-child(2) { animation-delay: 0.8s; }
+.ring:nth-child(3) { animation-delay: 1.6s; }
+
+@keyframes nfcExpand {
+  0%   { width: 64px;  height: 64px;  opacity: 0.9; border-color: rgba(129,140,248,0.6); }
+  100% { width: 180px; height: 180px; opacity: 0;   border-color: rgba(129,140,248,0); }
+}
+
+.nfc-icon {
+  width: 72px;
+  height: 72px;
+  background: rgba(67, 56, 202, 0.3);
+  border: 1.5px solid rgba(99, 102, 241, 0.5);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
 }
 
 .scan-prompt {
@@ -17,57 +61,119 @@
   letter-spacing: 0.05em;
 }
 
+.scan-sub {
+  font-size: 13px;
+  color: #4f5b8a;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+/* ── Loading ── */
+.scan-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+}
+
+.scan-spinner {
+  width: 56px;
+  height: 56px;
+  border: 3px solid rgba(99, 102, 241, 0.2);
+  border-top-color: #818cf8;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.scan-loading-text {
+  font-size: 20px;
+  font-weight: 600;
+  color: #818cf8;
+  letter-spacing: 0.1em;
+}
+
+/* ── Error ── */
+.scan-error-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+}
+
+.scan-error-icon {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: rgba(248, 113, 113, 0.15);
+  border: 1.5px solid rgba(248, 113, 113, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .scan-error {
   font-size: 22px;
   font-weight: 600;
   color: #f87171;
 }
 
-.scan-simulate-btn {
-  margin-top: 16px;
-  padding: 10px 20px;
+.scan-error-sub {
   font-size: 14px;
-  border: 1px dashed #475569;
-  border-radius: 999px;
-  background: transparent;
-  color: #94a3b8;
-  cursor: pointer;
+  color: #4f5b8a;
 }
 
-.scan-simulate-btn:hover {
-  background: rgba(148, 163, 184, 0.1);
-}
-
+/* ── Result screen ── */
 .currency-display {
-  width: min(720px, 92vw);
-  padding: clamp(40px, 8vw, 72px) clamp(32px, 6vw, 56px);
-  border-radius: 32px;
-  background: linear-gradient(160deg, rgba(67, 56, 202, 0.25), rgba(15, 23, 42, 0.4));
-  border: 1px solid rgba(99, 102, 241, 0.25);
-  text-align: center;
-  animation: scanFadeIn 0.5s ease-out;
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+   background: radial-gradient(circle at 50% 0%, #1e1b4b 0%, #0b1120 60%);
+  animation: fadeIn 0.8s ease-out;
+  z-index: 8;
+  overflow: hidden;
 }
 
-@keyframes scanFadeIn {
-  from { opacity: 0; transform: translateY(12px); }
-  to { opacity: 1; transform: translateY(0); }
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.currency-star-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.currency-content {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 0 24px;
 }
 
 .currency-welcome {
-  font-size: 14px;
-  font-weight: 600;
-  letter-spacing: 0.25em;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.3em;
   text-transform: uppercase;
   color: #818cf8;
   margin: 0 0 8px;
 }
 
 .currency-name {
-  font-size: clamp(24px, 4vw, 36px);
-  font-weight: 700;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  color: #fef3c7;
+  font-size: clamp(24px, 4vw, 40px);
+  font-weight: 800;
+  color: #fff;
   margin: 0 0 40px;
 }
 
@@ -77,35 +183,37 @@
 }
 
 .currency-amount {
-  font-size: clamp(72px, 14vw, 120px);
-  font-weight: 800;
+  font-size: clamp(88px, 18vw, 130px);
+  font-weight: 900;
   line-height: 1;
   color: #fbbf24;
-  animation: pulseGlow 2.4s ease-in-out infinite;
+  letter-spacing: -0.02em;
+  animation: pulseGlow 2.5s ease-in-out infinite;
 }
 
 @keyframes pulseGlow {
-  0%, 100% { text-shadow: 0 0 40px rgba(251, 191, 36, 0.45); }
-  50% { text-shadow: 0 0 65px rgba(251, 191, 36, 0.7); }
+  0%,100% { text-shadow: 0 0 60px rgba(251,191,36,0.5); }
+  50%      { text-shadow: 0 0 120px rgba(251,191,36,0.9); }
 }
 
 .currency-label {
-  font-size: 15px;
-  font-weight: 600;
-  letter-spacing: 0.3em;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.4em;
   text-transform: uppercase;
-  color: #818cf8;
-  margin: 12px 0 40px;
+  color: rgba(251,191,36,0.55);
+  margin: 8px 0 36px;
 }
 
 .currency-milestone {
-  margin-bottom: 32px;
+  width: min(480px, 80vw);
+  margin-bottom: 24px;
 }
 
 .currency-progress-track {
-  height: 12px;
+  height: 10px;
   border-radius: 999px;
-  background: rgba(99, 102, 241, 0.15);
+  background: rgba(99,102,241,0.15);
   overflow: hidden;
 }
 
@@ -113,31 +221,26 @@
   height: 100%;
   border-radius: 999px;
   background: linear-gradient(90deg, #fbbf24, #f59e0b);
-  transition: width 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+  transition: width 1s cubic-bezier(0.22,1,0.36,1);
 }
 
 .currency-progress-meta {
   display: flex;
   justify-content: space-between;
-  margin-top: 10px;
-  font-size: 13px;
+  margin-top: 8px;
+  font-size: 11px;
   font-weight: 600;
   color: #94a3b8;
 }
 
-.currency-progress-meta span:last-child {
-  color: #c7d2fe;
-}
+.currency-progress-meta span:last-child { color: #818cf8; }
 
 .currency-delta {
   display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 700;
   color: #bbf7d0;
-  background: rgba(34, 197, 94, 0.15);
-  padding: 8px 18px;
+  background: rgba(34,197,94,0.15);
+  padding: 10px 24px;
   border-radius: 999px;
-  margin: 0;
 }
