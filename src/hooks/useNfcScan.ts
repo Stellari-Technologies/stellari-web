@@ -3,27 +3,50 @@ import { useCallback, useEffect, useRef } from 'react';
 interface UseNfcScanOptions {
   onScan: (cardKey: string) => void;
   /**
-   * Ignore anything shorter than this. Public keys are long strings,
-   * not short card UIDs, so the floor is much higher than a typical
-   * "is this a real scan" check would use.
+   * Minimum length of the cleaned card ID.
+   * Defaults to 5 — update if your card format changes.
    */
   minLength?: number;
   /**
-   * Optional shape check once you know the exact key format —
-   * e.g. /^[0-9a-f]{64}$/i for hex, or a base58 pattern.
-   * Leave unset until you've seen a real sample.
+   * Override the default validation logic entirely.
+   * Receives the already-cleaned ID (framing chars stripped).
    */
   validate?: (value: string) => boolean;
+}
+
+/**
+ * Normalizes raw NFC reader output to a clean card ID.
+ *
+ * Current hardware: keyboard-wedge reader outputting ;{digits}? format
+ * e.g. ";2051028996?" → "2051028996"
+ *
+ * If the card format changes, update ONLY this function.
+ */
+function normalizeCardId(raw: string): string {
+  return raw.replace(/^;/, '').replace(/\?$/, '');
+}
+
+/**
+ * Returns true if the cleaned ID looks valid.
+ *
+ * Current format: numeric string, at least 5 digits.
+ * Update this if cards switch to a different format (UUID, hex, etc).
+ */
+function isValidCardId(value: string): boolean {
+  return /^\d{5,}$/.test(value);
 }
 
 /**
  * Captures scans from keyboard-wedge style NFC readers — the kind
  * that "type" a card's key followed by Enter, exactly like a barcode
  * scanner. Confirmed working in keyboard-wedge mode (tested on Mac).
+ *
+ * Card format confirmed from hardware: ;{digits}?
+ * onScan always receives the clean numeric ID e.g. "2051028996".
  */
 export function useNfcScan({
   onScan,
-  minLength = 20,
+  minLength = 5,
   validate,
 }: UseNfcScanOptions) {
   const inputRef = useRef<HTMLInputElement>(null);
@@ -40,21 +63,33 @@ export function useNfcScan({
   const handleKeyDown = useCallback(
     (e: React.KeyboardEvent<HTMLInputElement>) => {
       if (e.key !== 'Enter') return;
-      const value = e.currentTarget.value.trim();
+      const raw = e.currentTarget.value.trim();
       e.currentTarget.value = '';
 
+      const value = normalizeCardId(raw);
+
       if (value.length < minLength) return;
-      if (validate && !validate(value)) return;
+
+      // Use caller-supplied validation if provided, otherwise use default
+      const valid = validate ? validate(value) : isValidCardId(value);
+      if (!valid) return;
 
       onScan(value);
     },
     [onScan, minLength, validate]
   );
 
-  // Lets you test the whole flow before the format is fully pinned down.
+  // Lets you test the whole flow without physical hardware.
+  // Pass a raw value (with or without framing chars) — it goes through
+  // the same normalize + validate pipeline as a real scan.
   const simulateScan = useCallback(
-    (fakeKey: string) => onScan(fakeKey),
-    [onScan]
+    (fakeKey: string) => {
+      const value = normalizeCardId(fakeKey);
+      const valid = validate ? validate(value) : isValidCardId(value);
+      if (!valid) return;
+      onScan(value);
+    },
+    [onScan, validate]
   );
 
   return {
@@ -63,7 +98,7 @@ export function useNfcScan({
       ref: inputRef,
       onKeyDown: handleKeyDown,
       autoFocus: true,
-      'aria-hidden': true,
+      // aria-hidden removed — conflicts with autoFocus (browser warning)
       tabIndex: -1,
       style: {
         position: 'fixed',
