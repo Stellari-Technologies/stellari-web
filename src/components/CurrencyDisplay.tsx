@@ -1,10 +1,9 @@
-import { useEffect, useRef } from 'react';
+import { useEffect } from 'react';
 
 interface Participant {
   id: string;
   name: string;
   balance: number;
-  weeklyEarned: number;
   nextMilestone: number;
   stars: number;
   maxStars: number;
@@ -137,7 +136,7 @@ export function CurrencyDisplay({ participant }: { participant: Participant }) {
             <span>Next: {participant.nextMilestone.toLocaleString()}</span>
           </div>
         </div>
-        <p className="currency-delta">+{participant.weeklyEarned} earned this week</p>
+        
       </div>
     </div>
   );

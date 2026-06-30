@@ -8,7 +8,6 @@ interface Participant {
   id: string;
   name: string;
   balance: number;
-  weeklyEarned: number;
   nextMilestone: number;
   stars: number;
   maxStars: number;
@@ -21,7 +20,6 @@ async function resolveParticipantByCardId(cardId: string): Promise<Participant> 
     id: cardId,
     name: 'Sample Participant',
     balance,
-    weeklyEarned: 250,
     nextMilestone: getNextMilestone(balance),
     stars: 3,
     maxStars: 5,
