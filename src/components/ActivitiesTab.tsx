@@ -126,7 +126,7 @@ export default function ActivitiesTab() {
           style={{ borderRadius: 999, paddingLeft: 20, paddingRight: 20 }}
         >
           <Plus size={16} />
-          + Create Activity
+          Create Activity
         </Button>
       </div>
 
