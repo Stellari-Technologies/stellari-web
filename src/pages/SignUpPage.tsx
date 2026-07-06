@@ -63,8 +63,6 @@ export default function SignUpPage() {
         options: {
           userAttributes: {
             email: form.email,
-            given_name: form.firstName,
-            family_name: form.lastName,
           }
         }
       })
