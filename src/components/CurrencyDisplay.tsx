@@ -1,4 +1,10 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
+
+interface RecentActivity {
+  title: string;
+  starsEarned: number;
+  completedAt: string;
+}
 
 interface Participant {
   id: string;
@@ -7,6 +13,7 @@ interface Participant {
   nextMilestone: number;
   stars: number;
   maxStars: number;
+  recentActivities: RecentActivity[];
 }
 
 function drawStar(ctx: CanvasRenderingContext2D, cx: number, cy: number, r: number, rot: number) {
@@ -17,11 +24,7 @@ function drawStar(ctx: CanvasRenderingContext2D, cx: number, cy: number, r: numb
     const radius = i % 2 === 0 ? r : r * 0.43;
     const x = cx + Math.cos(angle) * radius;
     const y = cy + Math.sin(angle) * radius;
-    if (i === 0) {
-      ctx.moveTo(x, y);
-    } else {
-      ctx.lineTo(x, y);
-    }
+    if (i === 0) { ctx.moveTo(x, y); } else { ctx.lineTo(x, y); }
   }
   ctx.closePath();
 }
@@ -30,7 +33,7 @@ function useStarfield(canvasId: string) {
   useEffect(() => {
     const canvas = document.getElementById(canvasId) as HTMLCanvasElement;
     if (!canvas) return;
-    const ctx = canvas.getContext('2d')!;
+    const ctx = canvas.getContext('2d', { alpha: true })!;
 
     const resize = () => {
       canvas.width = window.innerWidth;
@@ -63,7 +66,11 @@ function useStarfield(canvasId: string) {
     }));
 
     let raf: number;
-    function draw() {
+    let lastTime = 0;
+
+    function draw(ts: number) {
+      if (ts - lastTime < 33) { raf = requestAnimationFrame(draw); return; }
+      lastTime = ts;
       ctx.clearRect(0, 0, W(), H());
 
       stars.forEach(s => {
@@ -95,7 +102,7 @@ function useStarfield(canvasId: string) {
 
       raf = requestAnimationFrame(draw);
     }
-    draw();
+    raf = requestAnimationFrame(draw);
 
     return () => {
       cancelAnimationFrame(raf);
@@ -104,26 +111,48 @@ function useStarfield(canvasId: string) {
   }, [canvasId]);
 }
 
+function useCountUp(ref: React.RefObject<HTMLSpanElement | null>, target: number) {
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const duration = 1200;
+    const start = performance.now();
+    let raf: number;
+    function tick(ts: number) {
+      const p = Math.min((ts - start) / duration, 1);
+      const eased = 1 - Math.pow(1 - p, 3);
+      el!.textContent = Math.round(eased * target).toLocaleString();
+      if (p < 1) raf = requestAnimationFrame(tick);
+    }
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, [ref, target]);
+}
+
 export function CurrencyDisplay({ participant }: { participant: Participant }) {
   const progressPct = Math.min(
     100,
     Math.round((participant.balance / participant.nextMilestone) * 100)
   );
+  const amountRef = useRef<HTMLSpanElement>(null);
 
   useStarfield('result-star-canvas');
+  useCountUp(amountRef, participant.balance);
 
   return (
     <div className="currency-display">
       <canvas id="result-star-canvas" className="currency-star-canvas" />
       <div className="currency-content">
+
         <p className="currency-welcome">Welcome back</p>
         <p className="currency-name">{participant.name}</p>
+
         <div className="currency-balance">
-          <span className="currency-amount">
-            {participant.balance.toLocaleString()}
-          </span>
+          <span className="currency-amount" ref={amountRef}>0</span>
         </div>
         <p className="currency-label">Points</p>
+
+
         <div className="currency-milestone">
           <div className="currency-progress-track">
             <div
@@ -136,7 +165,28 @@ export function CurrencyDisplay({ participant }: { participant: Participant }) {
             <span>Next: {participant.nextMilestone.toLocaleString()}</span>
           </div>
         </div>
-        
+
+        {participant.recentActivities.length > 0 && (
+          <div className="currency-activities">
+            <p className="currency-activities-label">Recent Activities</p>
+            <div className="currency-activities-list">
+              {participant.recentActivities.map((a, i) => (
+                <div key={i} className="currency-toast">
+                  <div className="currency-toast-body">
+                    <span className="currency-toast-title">{a.title}</span>
+                    <span className="currency-toast-time">{a.completedAt}</span>
+                  </div>
+                  <span className="currency-toast-pts">+{a.starsEarned} ⭐</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        <div className="currency-countdown">
+          <div className="currency-countdown-fill" />
+        </div>
+
       </div>
     </div>
   );
