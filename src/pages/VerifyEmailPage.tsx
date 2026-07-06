@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from 'react'
 import { Link, useNavigate, useSearchParams } from 'react-router-dom'
 import { MailOpen } from 'lucide-react'
+import { confirmSignUp, resendSignUpCode } from 'aws-amplify/auth'
 import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
 import AuthAlert from '../components/AuthAlert'
@@ -23,10 +24,8 @@ export default function VerifyEmailPage() {
 
   const inputRefs = useRef<(HTMLInputElement | null)[]>([])
 
-  // Focus first box on mount
   useEffect(() => { inputRefs.current[0]?.focus() }, [])
 
-  // Resend cooldown countdown
   useEffect(() => {
     if (resendTimer <= 0) return
     const t = setTimeout(() => setResendTimer(v => v - 1), 1000)
@@ -36,9 +35,7 @@ export default function VerifyEmailPage() {
   const code       = digits.join('')
   const isComplete = digits.every(d => d !== '')
 
-  // ── Digit input handlers ──────────────────────────────────────────────────
   const handleDigitChange = (index: number, value: string) => {
-    // Handle paste of full code
     if (value.length > 1) {
       const pasted = value.replace(/\D/g, '').slice(0, CODE_LENGTH)
       const next   = Array(CODE_LENGTH).fill('')
@@ -47,13 +44,11 @@ export default function VerifyEmailPage() {
       inputRefs.current[Math.min(pasted.length, CODE_LENGTH - 1)]?.focus()
       return
     }
-
     const digit = value.replace(/\D/g, '')
     const next  = [...digits]
     next[index] = digit
     setDigits(next)
     setServerError('')
-
     if (digit && index < CODE_LENGTH - 1) {
       inputRefs.current[index + 1]?.focus()
     }
@@ -65,31 +60,32 @@ export default function VerifyEmailPage() {
     }
   }
 
-  // ── Submit (wired up to API later) ────────────────────────────────────────
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     if (!isComplete) return
 
     setLoading(true)
     setServerError('')
-
-    // TODO: connect to POST /auth/confirm with { email, code }
-    console.log('Verify:', { email, code })
-
-    // Simulate success for now
-    setSuccessMsg('Email verified! Redirecting to login…')
-    setTimeout(() => navigate('/login'), 1800)
-
-    setLoading(false)
+    try {
+      await confirmSignUp({ username: email, confirmationCode: code })
+      setSuccessMsg('Email verified! Redirecting to login…')
+      setTimeout(() => navigate('/login'), 1800)
+    } catch (err: unknown) {
+      setServerError(err instanceof Error ? err.message : 'Invalid code. Please try again.')
+    } finally {
+      setLoading(false)
+    }
   }
 
-  // ── Resend (wired up to API later) ────────────────────────────────────────
-  const handleResend = () => {
-    // TODO: connect to POST /auth/resend with { email }
-    console.log('Resend code to:', email)
-    setSuccessMsg('A new code has been sent.')
-    setResendTimer(60)
-    setTimeout(() => setSuccessMsg(''), 4000)
+  const handleResend = async () => {
+    try {
+      await resendSignUpCode({ username: email })
+      setSuccessMsg('A new code has been sent.')
+      setResendTimer(60)
+      setTimeout(() => setSuccessMsg(''), 4000)
+    } catch (err: unknown) {
+      setServerError(err instanceof Error ? err.message : 'Failed to resend code.')
+    }
   }
 
   return (

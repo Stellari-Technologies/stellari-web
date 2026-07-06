@@ -43,7 +43,7 @@ export default function LoginPage() {
     setServerError('')
     try {
       await signIn({ username: form.email, password: form.password })
-      navigate('/dashboard')
+      navigate('/dashboard/app')
     } catch (err: unknown) {
       setServerError(err instanceof Error ? err.message : 'Invalid email or password.')
     } finally {
