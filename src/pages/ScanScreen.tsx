@@ -4,6 +4,12 @@ import { CurrencyDisplay } from '../components/CurrencyDisplay';
 import { getNextMilestone } from '../utils/milestones';
 import '../styles/scan.css';
 
+interface RecentActivity {
+  title: string;
+  starsEarned: number;
+  completedAt: string;
+}
+
 interface Participant {
   id: string;
   name: string;
@@ -11,8 +17,10 @@ interface Participant {
   nextMilestone: number;
   stars: number;
   maxStars: number;
+  recentActivities: RecentActivity[];
 }
 
+// TODO: replace with real backend call
 async function resolveParticipantByCardId(cardId: string): Promise<Participant> {
   await new Promise((resolve) => setTimeout(resolve, 800));
   const balance = 1280;
@@ -23,6 +31,11 @@ async function resolveParticipantByCardId(cardId: string): Promise<Participant> 
     nextMilestone: getNextMilestone(balance),
     stars: 3,
     maxStars: 5,
+    recentActivities: [
+      { title: 'Top 3 in Blooket', starsEarned: 2, completedAt: '2m ago' },
+      { title: 'Belt Build Complete', starsEarned: 5, completedAt: '1h ago' },
+      { title: 'Group Challenge', starsEarned: 3, completedAt: '2h ago' },
+    ],
   };
 }
 
@@ -40,7 +53,8 @@ export function ScanScreen() {
     try {
       const participant = await resolveParticipantByCardId(cardId);
       setState({ status: 'resolved', participant });
-      setTimeout(() => setState({ status: 'idle' }), 8000);
+      // 15 seconds — enough time to read everything comfortably
+      setTimeout(() => setState({ status: 'idle' }), 25000);
     } catch {
       setState({ status: 'error', message: 'Card not recognized — try again' });
       setTimeout(() => setState({ status: 'idle' }), 3000);
