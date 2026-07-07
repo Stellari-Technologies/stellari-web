@@ -7,6 +7,7 @@ import CreateStaffTab from '../components/CreateStaffTab'
 import ClassroomTab from '../components/ClassroomTab'
 import OrgSetupTab from '../components/OrgSetupTab'
 import ParticipantDetailsTab from '../components/ParticipantDetailsTab'
+import RewardsTab from '../components/RewardsTab'
 import '../styles/dashboard.css'
 import '../styles/ui.css'
 
@@ -172,6 +173,8 @@ export default function DashboardPage() {
             ? <CreateStaffTab />
             : activeTab === 'participants'
             ? <ParticipantDetailsTab />
+            : activeTab === 'rewards'
+            ? <RewardsTab />
             : (
               <div className="dash-placeholder">
                 <div className="dash-placeholder-icon">{meta.icon}</div>

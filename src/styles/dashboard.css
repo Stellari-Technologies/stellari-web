@@ -1662,3 +1662,164 @@ input[type=number] { -moz-appearance: textfield; appearance: textfield; }
   .ov2-charts { grid-template-columns: 1fr; }
   .ov2-card--wide { grid-column: span 1; }
 }
+
+/* ── Rewards Tab ─────────────────────────────────────────────────────────── */
+.rw-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.rw-card {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 20px;
+  background: #f8fafc;
+  border: 1px solid #e8edf3;
+  border-radius: 14px;
+  transition: border-color 0.15s, transform 0.15s, box-shadow 0.15s;
+}
+
+.rw-card:hover {
+  border-color: #1a3561;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(26, 53, 97, 0.08);
+}
+
+.rw-card__icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #f5a623, #e09410);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.rw-card__body { flex: 1; }
+
+.rw-card__title {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #1a3561;
+  margin-bottom: 4px;
+  font-family: 'DM Sans', sans-serif;
+}
+
+.rw-card__desc {
+  font-size: 0.8rem;
+  color: #8fa3bc;
+  line-height: 1.5;
+}
+
+.rw-card__footer {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #f5a623;
+  padding-top: 8px;
+  border-top: 1px solid #f0f4f9;
+  margin-top: auto;
+}
+
+@media (max-width: 900px) {
+  .rw-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 600px) {
+  .rw-grid { grid-template-columns: 1fr; }
+}
+
+/* ── Transaction History ─────────────────────────────────────────────────── */
+.pd-tx-summary {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+
+.pd-tx-summary__card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 20px;
+  border-radius: 12px;
+  border: 1px solid #e8edf3;
+}
+
+.pd-tx-summary__card--earned   { background: rgba(61, 184, 122, 0.06); color: #3db87a; }
+.pd-tx-summary__card--redeemed { background: rgba(245, 166, 35, 0.06);  color: #f5a623; }
+.pd-tx-summary__card--balance  { background: rgba(26, 53, 97, 0.06);   color: #1a3561; }
+
+.pd-tx-summary__value {
+  font-size: 1.1rem;
+  font-weight: 700;
+  font-family: 'DM Sans', sans-serif;
+  line-height: 1;
+  margin-bottom: 3px;
+}
+
+.pd-tx-summary__label {
+  font-size: 0.72rem;
+  font-weight: 500;
+  opacity: 0.7;
+}
+
+/* ── Transaction row ── */
+.pd-tx-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 20px;
+  border-bottom: 1px solid #f0f4f9;
+  transition: background 0.12s;
+}
+
+.pd-tx-row:last-child { border-bottom: none; }
+.pd-tx-row:hover { background: #fafbfc; }
+
+.pd-tx-icon {
+  width: 34px;
+  height: 34px;
+  border-radius: 9px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.pd-tx-icon--earned   { background: rgba(61, 184, 122, 0.12); color: #3db87a; }
+.pd-tx-icon--redeemed { background: rgba(245, 166, 35, 0.12);  color: #f5a623; }
+
+.pd-tx-body { flex: 1; }
+
+.pd-tx-label {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: #1a3561;
+  margin-bottom: 2px;
+  font-family: 'DM Sans', sans-serif;
+}
+
+.pd-tx-meta {
+  font-size: 0.75rem;
+  color: #aab8c8;
+}
+
+.pd-tx-amount {
+  font-size: 0.9rem;
+  font-weight: 700;
+  font-family: 'DM Sans', sans-serif;
+  white-space: nowrap;
+}
+
+.pd-tx-amount--earned   { color: #3db87a; }
+.pd-tx-amount--redeemed { color: #f5a623; }
+
+@media (max-width: 600px) {
+  .pd-tx-summary { grid-template-columns: 1fr; }
+}
