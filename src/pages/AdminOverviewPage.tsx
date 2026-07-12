@@ -109,7 +109,7 @@ export default function AdminOverviewPage() {
             <h1 className="ov2-hero__title">Good morning,<br />Demo Organization 👋</h1>
             <p className="ov2-hero__sub">Here's what's happening across your program today.</p>
             <button className="ov2-hero__cta" onClick={() => navigate('/dashboard/app?tab=activities')}>
-              Open Dashboard <ArrowRight size={16} />
+              Go to Management <ArrowRight size={16} />
             </button>
           </div>
           <div className="ov2-hero__links">

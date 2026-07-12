@@ -165,8 +165,15 @@ export default function DashboardPage() {
             ? <ActivitiesTab />
             : activeTab === 'create'
             ? <CreateParticipantTab />
+            // change to:
             : activeTab === 'classrooms'
-            ? <ClassroomTab />
+            ? (
+              <div className="dash-placeholder">
+                <div className="dash-placeholder-icon"><School size={28} /></div>
+                <p className="dash-placeholder-title">Program — Coming Soon</p>
+                <p className="dash-placeholder-sub">This section is still in progress and will be available soon.</p>
+              </div>
+            )
             : activeTab === 'orgSetup'
             ? <OrgSetupTab />
             : activeTab === 'createStaff'
