@@ -3,6 +3,9 @@ import { UserPlus, CheckCircle2, ChevronDown } from 'lucide-react'
 import Button from './Button'
 import '../styles/dashboard.css'
 import '../styles/ui.css'
+import { createParticipant } from '../lib/api'
+import { useOrg } from '../context/OrgContext'
+import AuthAlert from './AuthAlert'
 
 // ─── Types ───────────────────────────────────────────────────────────────────
 interface ParticipantForm {
@@ -84,9 +87,12 @@ function validate(form: ParticipantForm): FieldErrors {
 
 // ─── Component ───────────────────────────────────────────────────────────────
 export default function CreateParticipantTab() {
+  const { orgId } = useOrg()
   const [form,      setForm]      = useState<ParticipantForm>(EMPTY_FORM)
   const [errors,    setErrors]    = useState<FieldErrors>({})
   const [submitted, setSubmitted] = useState<ParticipantForm | null>(null)
+  const [loading,     setLoading]     = useState(false)
+  const [serverError, setServerError] = useState('')
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value, type } = e.target
@@ -95,11 +101,28 @@ export default function CreateParticipantTab() {
     if (errors[name as keyof FieldErrors]) setErrors(prev => ({ ...prev, [name]: undefined }))
   }
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     const errs = validate(form)
     if (Object.keys(errs).length) { setErrors(errs); return }
-    setSubmitted(form)
+    if (!orgId) { setServerError('Organization not found. Please log in again.'); return }
+
+    setLoading(true)
+    setServerError('')
+    try {
+      await createParticipant(orgId, {
+        firstName:        form.firstName,
+        lastName:         form.lastName,
+        dateOfBirth:      form.birthday || undefined,
+        parentFirstName:  form.hasParent ? form.parentFirstName : undefined,
+        parentLastName:   form.hasParent ? form.parentLastName  : undefined,
+      })
+      setSubmitted(form)
+    } catch (err: unknown) {
+      setServerError(err instanceof Error ? err.message : 'Something went wrong.')
+    } finally {
+      setLoading(false)
+    }
   }
 
   const handleReset = () => {
@@ -185,6 +208,7 @@ export default function CreateParticipantTab() {
   // ── Form ──────────────────────────────────────────────────────────────────
   return (
     <div className="cp-wrap">
+      {serverError && <AuthAlert variant="error">{serverError}</AuthAlert>}
       <form className="cp-form" onSubmit={handleSubmit} noValidate>
 
         {/* ── Participant info ── */}
@@ -368,12 +392,11 @@ export default function CreateParticipantTab() {
           <Button type="button" variant="ghost" size="lg" onClick={handleReset}>
             Cancel
           </Button>
-          <Button type="submit" variant="primary" size="lg">
-            <UserPlus size={16} />
-            Add Member
+          <Button type="submit" variant="primary" size="lg" disabled={loading}>
+            {loading ? <><span className="auth-btn-spinner" /> Adding…</> : <><UserPlus size={16} />Add Member</>}
           </Button>
         </div>
-
+      
       </form>
     </div>
   )

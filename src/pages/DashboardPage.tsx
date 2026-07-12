@@ -10,6 +10,7 @@ import ParticipantDetailsTab from '../components/ParticipantDetailsTab'
 import RewardsTab from '../components/RewardsTab'
 import '../styles/dashboard.css'
 import '../styles/ui.css'
+import { signOut } from 'aws-amplify/auth'
 
 // ─── Tab definitions per mode ─────────────────────────────────────────────────
 const PARTICIPANT_TABS = [
@@ -87,8 +88,15 @@ export default function DashboardPage() {
     setSearchParams({ mode, tab: key })
   }
 
+  const handleSignOut = async () => {
+    await signOut()
+    localStorage.removeItem('orgId')
+    navigate('/login')
+  }
+
   return (
     <div className="dash-app">
+      
 
       <nav className="dash-nav">
         <div className="dash-nav__logo">
@@ -106,6 +114,13 @@ export default function DashboardPage() {
         <div className="dash-nav__user">
           Demo Organization
           <div className="dash-nav__avatar">DO</div>
+          <button
+            className="ui-btn ui-btn-ghost ui-btn-sm"
+            onClick={handleSignOut}
+            style={{ fontFamily: "'DM Sans', sans-serif" }}
+          >
+            Sign out
+          </button>
         </div>
       </nav>
 

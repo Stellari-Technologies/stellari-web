@@ -4,9 +4,12 @@ import './index.css'
 import './styles/ui.css'
 import App from './App.tsx'
 import './lib/amplify'
+import { OrgProvider } from './context/OrgContext'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <App />
+    <OrgProvider>
+      <App />
+    </OrgProvider>
   </StrictMode>,
 )
