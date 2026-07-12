@@ -190,5 +190,4 @@ export function CurrencyDisplay({ participant }: { participant: Participant }) {
       </div>
     </div>
   );
-  );
 }
