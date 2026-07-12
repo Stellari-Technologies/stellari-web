@@ -2,7 +2,11 @@ import { useNavigate } from 'react-router-dom'
 import { Trophy, Users, BarChart2, Bell } from 'lucide-react'
 import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
+<<<<<<< HEAD
 import '../styles/LandingPage.css'
+=======
+import './LandingPage.css'
+>>>>>>> 5285a6d148b80918363dbc05610910eae04ec200
 import placeholderImg from '../assets/placeholder.svg'
 import heroImg from '../assets/hero-illustration.svg'
 import codeNinjasImg from '../assets/CodeNinjasLogo.png'

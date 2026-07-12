@@ -1,12 +1,12 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import LoginPage from './pages/LoginPage'
 import SignUpPage from './pages/SignUpPage'
-import VerifyEmailPage from './pages/VerifyEmailPage'
-import AdminOverviewPage from './pages/AdminOverviewPage'
-import DashboardPage from './pages/DashboardPage'
 import RootRedirect from './components/RootRedirect'
 import { ScanScreen } from './pages/ScanScreen'
+import DashboardPage from './pages/DashboardPage'
 import { ProtectedRoute } from './components/ProtectedRoute'
+import VerifyEmailPage from './pages/VerifyEmailPage'
+import AdminOverviewPage from './pages/AdminOverviewPage'
 
 function App() {
   return (
@@ -25,14 +25,15 @@ function App() {
           }
         />
         <Route
-          path="/dashboard/app"
+          path="/scan"
           element={
             <ProtectedRoute>
-              <DashboardPage />
+              <ScanScreen />
             </ProtectedRoute>
           }
         />
-        <Route path="/scan" element={<ScanScreen />} />
+        <Route path="/verify-email"  element={<VerifyEmailPage />} />
+        <Route path="/dashboard/app" element={<DashboardPage />} />
       </Routes>
     </BrowserRouter>
   )
