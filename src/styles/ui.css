@@ -1,0 +1,177 @@
+/* ─── Button ─────────────────────────────── */
+.ui-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border-radius: var(--radius-md);
+  font-weight: 600;
+  font-family: var(--font-body);
+  transition: all 0.2s;
+  cursor: pointer;
+  border: 1px solid transparent;
+  text-decoration: none;
+}
+
+.ui-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.ui-btn:not(:disabled):hover {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-soft);
+  opacity: 0.88;
+}
+
+.ui-btn-sm  { padding: 6px 12px;   font-size: 12px; }
+.ui-btn-md  { padding: 8px 16px;   font-size: 14px; }
+.ui-btn-lg  { padding: 12px 24px;  font-size: 16px; }
+.ui-btn-full { width: 100%; }
+
+.ui-btn-primary {
+  background: var(--color-brand);
+  color: white;
+  border-color: var(--color-brand);
+}
+
+.ui-btn-brand {
+  background: var(--color-accent);
+  color: white;
+  border-color: var(--color-accent);
+}
+
+.ui-btn-ghost {
+  background: transparent;
+  color: var(--color-ink);
+  border-color: var(--color-border);
+  border-width: 1.5px;
+}
+
+/* ─── Card ───────────────────────────────── */
+.ui-card {
+  background: white;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+  padding: 1.25rem 1.5rem;
+  transition: border-color 0.2s, transform 0.2s;
+}
+
+.ui-card-hover:hover {
+  border-color: var(--color-brand);
+  transform: translateY(-2px);
+}
+
+/* ─── Form ───────────────────────────────── */
+.ui-label {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--color-brand);
+  margin-bottom: 6px;
+  display: block;
+}
+
+.ui-input {
+  width: 100%;
+  padding: 11px 14px;
+  font-size: 14px;
+  font-family: var(--font-body);
+  border: none;
+  border-radius: var(--radius-card);
+  background: #f0f0f0;
+  color: var(--color-ink);
+  transition: all 0.2s;
+  outline: none;
+  box-sizing: border-box;
+}
+
+.ui-input:focus {
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-brand) 20%, transparent);
+}
+
+.ui-input::placeholder { color: #aaa; }
+
+/* ─── Navbar ─────────────────────────────── */
+.ui-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 2rem;
+  border-bottom: 1px solid var(--color-border);
+  background: white;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.ui-nav__logo {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font-heading);
+  font-size: 1.3rem;
+  font-weight: 700;
+  font-style: italic;
+  color: var(--color-brand);
+}
+
+.ui-nav__star { color: var(--color-accent); font-size: 1.2rem; }
+
+.ui-nav__links {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.ui-nav__links a {
+  font-size: 0.9rem;
+  color: var(--color-muted);
+  text-decoration: none;
+}
+
+.ui-nav__links a:hover { color: var(--color-ink); }
+
+.ui-nav__actions { display: flex; gap: 0.75rem; }
+
+/* ─── Footer ─────────────────────────────── */
+.ui-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.5rem 2rem;
+  background: #1a2a4a;
+}
+
+.ui-footer__logo {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font-heading);
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: white;
+  font-style: italic;
+}
+
+.ui-footer__links { display: flex; gap: 1.5rem; }
+
+.ui-footer__links a {
+  font-size: 0.9rem;
+  color: rgba(255,255,255,0.6);
+  text-decoration: none;
+}
+
+.ui-footer__links a:hover { color: white; }
+
+/* ─── Badge ──────────────────────────────── */
+.ui-badge {
+  display: inline-block;
+  padding: 0.3rem 0.9rem;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.ui-badge-brand {
+  background: color-mix(in srgb, var(--color-brand) 12%, white);
+  color: var(--color-brand);
+}
