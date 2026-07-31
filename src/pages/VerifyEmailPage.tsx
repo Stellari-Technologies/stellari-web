@@ -68,8 +68,8 @@ export default function VerifyEmailPage() {
     setServerError('')
     try {
       await confirmSignUp({ username: email, confirmationCode: code })
-      setSuccessMsg('Email verified! Redirecting to login…')
-      setTimeout(() => navigate('/login'), 1800)
+      setSuccessMsg('Email verified! Redirecting to organization setup…')
+      setTimeout(() => navigate('/org-setup'), 1800)
     } catch (err: unknown) {
       setServerError(err instanceof Error ? err.message : 'Invalid code. Please try again.')
     } finally {

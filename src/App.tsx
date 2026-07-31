@@ -7,6 +7,7 @@ import DashboardPage from './pages/DashboardPage'
 import RootRedirect from './components/RootRedirect'
 import { ScanScreen } from './pages/ScanScreen'
 import { ProtectedRoute } from './components/ProtectedRoute'
+import OrgSetupPage from './pages/OrgSetupPage'
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
         <Route path="/" element={<RootRedirect />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<SignUpPage />} />
+        <Route path="/org-setup" element={<OrgSetupPage />} />
         <Route path="/verify-email" element={<VerifyEmailPage />} />
         <Route
           path="/dashboard"
